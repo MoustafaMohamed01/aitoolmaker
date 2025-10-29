@@ -1,6 +1,12 @@
 # AIToolMaker
+[![PyPI version](https://badge.fury.io/py/aitoolmaker.svg)](https://badge.fury.io/py/aitoolmaker)
+[![PyPI version](https://img.shields.io/pypi/v/datacmp.svg)](https://pypi.org/project/datacmp/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **AIToolMaker** is a powerful Python framework that automatically generates and runs Streamlit-based AI tools and chatbots, or exports them as full HTML/CSS/JS websites.
+
+* **PyPI** : https://pypi.org/project/aitoolmaker/
 
 ## Features
 
