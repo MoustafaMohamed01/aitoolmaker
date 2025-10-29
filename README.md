@@ -1,111 +1,15 @@
 # AIToolMaker
 
-**Build AI-powered tools, chatbots, and full websites instantly — no manual coding needed.**
-
-AIToolMaker is a Python library that lets you **generate, customize, and run Streamlit AI apps or full HTML/CSS/JS websites** just by describing the tool you want and providing your LLM API key (e.g., Gemini, OpenAI, Anthropic).
-
-Whether you want a chatbot, summarizer, SQL generator, or blog writer — AIToolMaker builds it automatically and can run it right away.
-
----
+**AIToolMaker** is a powerful Python framework that automatically generates and runs Streamlit-based AI tools and chatbots, or exports them as full HTML/CSS/JS websites.
 
 ## Features
 
- - **Auto Code Generation** — Instantly create ready-to-run Streamlit code for AI tools.  
- - **Run Instantly** — Skip the code and just run your tool directly.  
- - **Website Export** — Generate full HTML/CSS/JS websites for your AI tools.  
- - **Plug in Any Model** — Works with Gemini, OpenAI, Anthropic, etc.  
- - **Smart Branding** — Add your own logo and name, or let AIToolMaker auto-brand your app.  
- - **Extensible** — Add your own custom tools and templates easily.
-
----
-
-## How It Works
-
-You describe the tool you want → AIToolMaker generates code or website files → you can run or publish instantly.
-
-```python
-from aitoolmaker import AIToolMaker
-
-# Initialize the library with your API key and model
-tool = AIToolMaker(
-    api_key="YOUR_GEMINI_API_KEY",
-    model="gemini-2.0-flash"
-)
-
-# Example 1: Generate a Streamlit chatbot code file
-tool.create_tool(
-    tool_type="chatbot",
-    output="streamlit",
-    run=False,
-    name="MyChatBot",
-    logo="logo.png"
-)
-
-# Example 2: Instantly run a blog generator app
-tool.create_tool(
-    tool_type="blog_generator",
-    output="streamlit",
-    run=True
-)
-
-# Example 3: Generate a full website version
-tool.create_tool(
-    tool_type="summarizer",
-    output="website",
-    run=False,
-    name="SummaryPro"
-)
-````
-
-You can also use it via CLI:
-
-```bash
-aitoolmaker create --tool chatbot --output streamlit --run --model gemini-2.0-flash
-```
-
----
-
-## Supported Tool Types (Initial Version)
-
-* Chatbot
-* Blog Generator
-* CSV / Data Analyzer
-* Document Summarizer
-* Website Summarizer
-* SQL Query Generator
-* Code Explainer
-
-*(You can add your own custom tool templates — the system is modular!)*
-
----
-
-## Project Structure
-
-```
-aitoolmaker/
- ├── __init__.py
- ├── core/
- │   ├── generator.py
- │   ├── runners.py
- │   ├── templates/
- │   │   ├── streamlit/
- │   │   └── website/
- ├── tools/
- │   ├── chatbot.py
- │   ├── summarizer.py
- │   ├── blog_generator.py
- │   └── ...
- ├── utils/
- │   ├── branding.py
- │   ├── config_loader.py
- │   └── file_manager.py
- ├── logo/
- │   └── default_logo.png
- ├── setup.py
- └── README.md
-```
-
----
+- **Instant Tool Generation**: Create AI-powered tools with a single command
+- **Multiple Output Formats**: Generate Streamlit apps or standalone websites
+- **6 Pre-built Tools**: Chatbot, Blog Generator, Data Analyzer, SQL Generator, Document Summarizer, Web Summarizer
+- **Run Immediately**: Option to run tools instantly without exporting code
+- **Auto-branding**: Automatic name and logo generation
+- **Multi-API Support**: Works with Gemini, OpenAI, and Anthropic APIs
 
 ## Installation
 
@@ -116,108 +20,196 @@ pip install aitoolmaker
 Or install from source:
 
 ```bash
-git clone https://github.com/MoustafaMohamed01/AIToolMaker.git
-cd AIToolMaker
+git clone https://github.com/MoustafaMohamed01/aitoolmaker.git
+cd aitoolmaker
 pip install -e .
 ```
 
----
+## Quick Start
 
-## Configuration
+### Python API
 
-You’ll need a valid **LLM API key**, for example:
+```python
+from aitoolmaker import AIToolMaker
+
+# Initialize
+tool = AIToolMaker(
+    api_key="YOUR_GEMINI_API_KEY",
+    model="gemini-2.0-flash"
+)
+
+# Generate and run a chatbot
+tool.create_tool(
+    tool_type="chatbot",
+    output="streamlit",
+    run=True,
+    name="My AI Assistant"
+)
+```
+
+### Command Line
 
 ```bash
-export GEMINI_API_KEY="your_gemini_api_key"
+# Create a blog generator
+aitoolmaker create --tool blog_generator --api-key YOUR_KEY --output streamlit
+
+# Create and run immediately
+aitoolmaker create --tool chatbot --api-key YOUR_KEY --run
+
+# Generate a website
+aitoolmaker create --tool sql_generator --api-key YOUR_KEY --output website
 ```
 
-Or directly in Python:
+## Available Tools
+
+| Tool                    | Description                                         |
+| ----------------------- | --------------------------------------------------- |
+| **chatbot**             | Professional AI assistant with conversation history |
+| **blog_generator**      | AI-powered blog writer with keyword optimization    |
+| **data_analyzer**       | Ask questions about CSV data using AI               |
+| **sql_generator**       | Generate SQL queries from natural language          |
+| **document_summarizer** | Summarize PDF and Word documents                    |
+| **web_summarizer**      | Summarize website content                           |
+
+## Usage Examples
+
+### Generate Multiple Tools
 
 ```python
-tool = AIToolMaker(api_key="your_gemini_api_key", model="gemini-2.0-flash")
+from aitoolmaker import AIToolMaker
+
+api_key = "YOUR_API_KEY"
+tools = ["chatbot", "blog_generator", "sql_generator"]
+
+for tool_type in tools:
+    maker = AIToolMaker(api_key=api_key, model="gemini-2.0-flash")
+    result = maker.create_tool(
+        tool_type=tool_type,
+        output="streamlit",
+        output_dir=f"./generated_{tool_type}"
+    )
+    print(f"{tool_type} created at {result['output_dir']}")
 ```
 
----
-
-## Examples
-
-### Generate and Run a Chatbot
+### Custom Branding
 
 ```python
-tool.create_tool("chatbot", output="streamlit", run=True)
+from aitoolmaker import AIToolMaker
+
+maker = AIToolMaker(api_key="YOUR_KEY", model="gemini-2.0-flash")
+
+result = maker.create_tool(
+    tool_type="data_analyzer",
+    output="streamlit",
+    name="DataMaster Pro",
+    logo="./my_logo.png",
+    output_dir="./my_data_tool"
+)
 ```
 
-### Generate a Summarizer Website
+### Generate Website
 
 ```python
-tool.create_tool("summarizer", output="website", run=False, name="TextSummary")
+from aitoolmaker import AIToolMaker
+
+maker = AIToolMaker(api_key="YOUR_KEY", model="gemini-2.0-flash")
+
+result = maker.create_tool(
+    tool_type="sql_generator",
+    output="website",
+    name="SQL Wizard",
+    output_dir="./sql_website"
+)
 ```
 
-### CLI Usage
+## CLI Usage
+
+### List Available Tools
 
 ```bash
-aitoolmaker create --tool sql_generator --output website --model gemini-2.0-flash
+aitoolmaker list
 ```
 
----
+### Get Tool Information
+
+```bash
+aitoolmaker info chatbot
+```
+
+### Create Tool with Options
+
+```bash
+aitoolmaker create \
+  --tool document_summarizer \
+  --api-key YOUR_KEY \
+  --model gemini-2.0-flash \
+  --name "DocSummarizer Pro" \
+  --logo ./logo.png \
+  --output-dir ./my_summarizer
+```
+
+## Generated Output Structure
+
+### Streamlit App
+
+```
+generated_chatbot/
+├── app.py              # Main Streamlit application
+├── api_key.py          # API key configuration
+├── requirements.txt    # Python dependencies
+├── README.md           # Usage instructions
+└── utils.py            # Utility functions (if needed)
+```
+
+### Website
+
+```
+generated_chatbot_website/
+├── index.html          # Main HTML file
+├── css/
+│   └── style.css       # Stylesheet
+├── js/
+│   └── app.js          # JavaScript logic
+├── assets/
+│   └── logo.png        # Logo image
+└── README.md           # Deployment instructions
+```
 
 ## Use Cases
 
-* Build internal AI dashboards with Streamlit instantly
-* Create branded AI SaaS prototypes in minutes
-* Auto-generate websites for AI tools (HTML/CSS/JS)
-* Integrate with Gemini or OpenAI APIs for custom AI apps
-* Teach AI development quickly in classrooms or tutorials
-
----
-
-## Extending the Library
-
-Add your own tools inside the `/tools/` directory.
-Each tool must follow this structure:
-
-```python
-def build_tool(api_key, model, name, logo):
-    # your tool logic here
-    # should return Streamlit or HTML/JS code
-```
-
-Then register it in `/core/generator.py`.
-
----
-
-## PyPI Metadata
-
-**Package name:** `aitoolmaker`
-**Author:** Moustafa Mohamed
-**License:** MIT
-**Python:** 3.10+
-**Frameworks:** Streamlit, Jinja2, requests
-**Version:** 0.1.0
-
----
+- **Rapid Prototyping**: Quickly create AI tool prototypes
+- **Client Demos**: Generate custom-branded demos
+- **Internal Tools**: Build internal AI tools for teams
+- **Learning**: Study production-ready AI code
+- **Deployment**: Export portable, deployment-ready code
 
 ## Contributing
 
-Contributions are welcome!
-To contribute:
+Contributions are welcome! To add a new tool:
 
-1. Fork this repo
-2. Create a new branch (`feature/your-feature`)
-3. Commit your changes
-4. Submit a pull request
-
----
+1. Create a template file in `core/templates/your_tool.py`
+2. Define the template constant
+3. Register it in `core/templates/__init__.py`
+4. Update `SUPPORTED_TOOLS` in `__init__.py`
 
 ## License
 
-This project is licensed under the **MIT License** — free to use, modify, and distribute.
+MIT License - See LICENSE file for details
+
+## Acknowledgments
+
+- Built with [Streamlit](https://streamlit.io/)
+- Powered by [Google Gemini](https://deepmind.google/technologies/gemini/)
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/MoustafaMohamed01/aitoolmaker/issues)
+- **Email**: moustafamohmd5@gmail.com
 
 ---
 
-## Links
+Made by the **Moustafa Mohamed**
 
-* **GitHub:** [https://github.com/MoustafaMohamed01/AIToolMaker](https://github.com/MoustafaMohamed01/AIToolMaker)
-* **PyPI:** [https://pypi.org/project/aitoolmaker/](https://pypi.org/project/aitoolmaker/)
-* **Author:** [Moustafa Mohamed](https://www.linkedin.com/in/moustafamohamed01/)
-
+- **Linkedin** [Moustafa Mohamed](https://www.linkedin.com/in/moustafamohamed01/)
+- **Github** [MoustafaMohamed01](https://github.com/MoustafaMohamed01)
+- **Kaggle** [moustafamohamed01](https://www.kaggle.com/moustafamohamed01)
